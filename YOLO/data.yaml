@@ -1,0 +1,8 @@
+path: /Users/viktorijaauzele/PycharmProjects/YOLOv8/YOLOv8/datasets # <-- relatīvais ceļš no šī yaml atrašanās vietas
+
+train: train/images            # tas nozīmē: datasets/train/input
+val: validation/images
+test: test/input              # nav obligāts
+
+names:
+  0: building
