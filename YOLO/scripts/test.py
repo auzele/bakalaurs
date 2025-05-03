@@ -8,45 +8,39 @@ MODEL_PATH = ".../weights/best.pt"
 IMAGE_DIR = ".../test/images"
 PROJECT_DIR = ".../test/results"
 RUN_NAME = "segmented_batch2"
-FILLED_DIR = os.path.join(PROJECT_DIR, RUN_NAME, "filled_masks")
+MASK_DIR = os.path.join(PROJECT_DIR, RUN_NAME, "binary_masks")
 
 
-os.makedirs(FILLED_DIR, exist_ok=True)
+os.makedirs(MASK_DIR, exist_ok=True)
 
-# ===== 1. Ielādē modeli =====
-print("\U0001F4E6 Ielādē YOLOv8 segmentācijas modeli...")
+#MODEL
 model = YOLO(MODEL_PATH)
 
-# ===== 2. Segmentē =====
-print("\U0001F9E0 Veic segmentāciju uz visām bildēm mapē...")
+
 results = model.predict(
     source=IMAGE_DIR,
-    save=True,
-    project=PROJECT_DIR,
-    name=RUN_NAME,
+    save=False,
     imgsz=640,
     show_boxes=False
 )
 
-# ===== 3. Saglabā maskas bez caurspīdīguma =====
-print("\U0001F3A8 Zīmē maskas bez caurspīdīguma...")
+#BINARY MASKS
 
 for i, r in enumerate(results):
-    im0 = r.orig_img.copy()
+    h, w = r.orig_img.shape[:2]
+    combined_mask = np.zeros((h, w), dtype=np.uint8)  
+
     if r.masks is not None:
-        masks = r.masks.data.cpu().numpy()
+        masks = r.masks.data.cpu().numpy() 
         for mask in masks:
-            mask = (mask * 255).astype(np.uint8)
-            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            cv2.drawContours(im0, contours, -1, color=(0, 0, 255), thickness=-1)  # aizpilda ar sarkanu
+            binary = (mask * 255).astype(np.uint8) 
+            combined_mask = np.maximum(combined_mask, binary)  
 
-        print(f"Image {i} - {len(masks)} maskas atrastas")
+        filename = os.path.basename(r.path).rsplit(".", 1)[0]
+        mask_path = os.path.join(MASK_DIR, f"{filename}_combined_mask.png")
+        cv2.imwrite(mask_path, combined_mask)
+        print(f"{len(masks)} masks merged for image: {r.path}")
     else:
-        print(f"Image {i} - maskas NAV atrastas")
+        print(f"No masks found for image: {r.path}")
 
-    # Saglabā aizpildīto bildi
-    filename = os.path.basename(r.path)
-    out_path = os.path.join(FILLED_DIR, f"filled_{filename}")
-    cv2.imwrite(out_path, im0)
-
-print(f"\n✅ Saglabāti aizpildītie masku rezultāti: {FILLED_DIR}")
+print(f"Merged binary masks saved in: {MASK_DIR}")
