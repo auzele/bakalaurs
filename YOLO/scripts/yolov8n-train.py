@@ -1,17 +1,21 @@
+# Model structure and approach based on Ultralytics YOLOv8 (v8.0.0):
+# Jocher, G., Chaurasia, A., & Qiu, J. (2023). Ultralytics YOLOv8. https://github.com/ultralytics/ultralytics
+# Licensed under AGPL-3.0.
+
 from ultralytics import YOLO
 
-# Ielādē YOLOv8m-seg modeli (vidēja izmēra modelis)
-model = YOLO("yolov8n-seg.pt")  # vai mazāku: "yolov8n-seg.pt"
+
+model = YOLO("yolov8n-seg.pt") 
 
 # Trenēšanu
 model.train(
-    data="../data.yaml",         # ceļš uz datu YAML
-    epochs=50,                  # vairāk epohas, mazai datu kopai vajag ilgāku trenēšanu
-    imgsz=640,                   # attēla izmērs
-    batch=4,                     # batch size, paliek kā bija
-    name="yolov8n_istais",       # kā nosauksies folderis zem runs/
-    device="cpu",                # ja ir GPU, tad device="0"
-    pretrained=True,             # sāk no ImageNet modeļa svaru (default, bet ļoti svarīgi mazām datu kopām)
-    project="runs/segment",      # glabāsies `runs/segment/`
-    task="segment",              # segmentācija
+    data="../data.yaml",         
+    epochs=50,              
+    imgsz=640,             
+    batch=4,                  
+    name="yolov8n_seg",      
+    device="cpu",               
+    pretrained=True,         
+    project="runs/segment",     
+    task="segment",            
 )
