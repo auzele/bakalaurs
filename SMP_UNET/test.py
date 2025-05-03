@@ -46,6 +46,6 @@ for img_name in test_images:
     save_path = os.path.join(OUTPUT_DIR, f"mask_{img_name}")
     pred_mask.save(save_path)
 
-    print(f"Saglabāts: {save_path}")
+    print(f"Saved: {save_path}")
 
 print("\n Finished!")
