@@ -1,18 +1,21 @@
+# Model structure and approach based on:
+# Wang, C.-Y., & Liao, H.-Y. M. (2024). YOLOv9: Learning What You Want to Learn Using Programmable Gradient Information.
+# arXiv preprint arXiv:2402.13616. https://arxiv.org/abs/2402.13616
+
 from ultralytics import YOLO
 
-# Ielādē YOLOv8m-seg modeli (vidēja izmēra modelis)
-model = YOLO("yolov9c-seg.pt")  # vai mazāku: "yolov8n-seg.pt"
+
+model = YOLO("yolov9c-seg.pt") 
 
 
-# Trenēšanu
 model.train(
-    data="../data.yaml",         # ceļš uz datu YAML
-    epochs=50,                  # vairāk epohas, mazai datu kopai vajag ilgāku trenēšanu
-    imgsz=640,                   # attēla izmērs
-    batch=4,                     # batch size, paliek kā bija
-    name="yolov9c_istais",       # kā nosauksies folderis zem runs/
-    device="cpu",                # ja ir GPU, tad device="0"
-    pretrained=True,             # sāk no ImageNet modeļa svaru (default, bet ļoti svarīgi mazām datu kopām)
-    project="runs/segment",      # glabāsies `runs/segment/`
-    task="segment",              # segmentācija
+    data="../data.yaml",     
+    epochs=50,                  
+    imgsz=640,                  
+    batch=4,                     
+    name="yolov9c_seg",       
+    device="cpu",               
+    pretrained=True,             
+    project="runs/segment",     
+    task="segment",             
 )
