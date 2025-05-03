@@ -1,3 +1,9 @@
+# Model architecture and training loop inspired by:
+# Iakubovskii, P. (2019). Segmentation Models Pytorch. GitHub repository.
+# https://github.com/qubvel/segmentation_models.pytorch
+
+
+
 from dataset import BuildingDataset
 import torch
 from torch.utils.data import DataLoader
@@ -52,4 +58,4 @@ for epoch in range(50):
     if avg_val_loss < best_val_loss:
         best_val_loss = avg_val_loss
         torch.save(model.state_dict(), "best_deeplabv3+_resnet50.pth")
-        print(">> Saglabāts labākais modelis!")
+        print(">> Best model saved!")
