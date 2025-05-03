@@ -4,13 +4,13 @@ from PIL import Image
 import segmentation_models_pytorch as smp
 import numpy as np
 
-# =================== PARAMETRI ===================
+#PARAMETERS
 DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
-MODEL_PATH = "unet_resnet50.pth"  # Saglabātā modeļa fails
-TEST_IMAGES_DIR = "/Users/viktorijaauzele/PycharmProjects/SMP_unet/test/input"  # Mape ar test attēliem
-OUTPUT_DIR = "/Users/viktorijaauzele/PycharmProjects/SMP_unet/test/result"  # Kur saglabāt maskas
+MODEL_PATH = "unet_resnet50.pth"  
+TEST_IMAGES_DIR = ".../test/images"  
+OUTPUT_DIR = ".../test/result"  
 
-# =================== MODELA IELĀDE ===================
+#MODEL
 model = smp.Unet(
     encoder_name="resnet50",
     encoder_weights=None,
@@ -22,7 +22,7 @@ model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 model = model.to(DEVICE)
 model.eval()
 
-# =================== TEST ATTĒLU PROGNOZĒŠANA ===================
+#BUILDING PREDICTION
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 test_images = os.listdir(TEST_IMAGES_DIR)
@@ -31,9 +31,8 @@ for img_name in test_images:
     img_path = os.path.join(TEST_IMAGES_DIR, img_name)
     image = Image.open(img_path).convert("RGB")
 
-    # Konvertē uz tensoru bez izmēru maiņas
     input_tensor = torch.from_numpy(np.array(image)).permute(2, 0, 1).float() / 255.0
-    input_tensor = input_tensor.unsqueeze(0).to(DEVICE)  # (1, 3, H, W)
+    input_tensor = input_tensor.unsqueeze(0).to(DEVICE)  
 
     with torch.no_grad():
         output = model(input_tensor)
@@ -49,4 +48,4 @@ for img_name in test_images:
 
     print(f"Saglabāts: {save_path}")
 
-print("\n✅ Tests pabeigts!")
+print("\n Finished!")
