@@ -1,3 +1,8 @@
+# Model architecture and training loop inspired by:
+# Iakubovskii, P. (2019). Segmentation Models Pytorch. GitHub repository.
+# https://github.com/qubvel/segmentation_models.pytorch
+
+
 import os
 from torch.utils.data import Dataset
 from torchvision import transforms
