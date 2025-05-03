@@ -3,14 +3,14 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 
-# ===== CEĻI =====
-MODEL_PATH = "/Users/viktorijaauzele/PycharmProjects/YOLOv8/YOLOv8/scripts/runs/segment/yolov8n_istais/weights/best.pt"
-IMAGE_DIR = "/Users/viktorijaauzele/PycharmProjects/YOLOv8/YOLOv8/datasets/test/input"
-PROJECT_DIR = "../results"
+
+MODEL_PATH = ".../weights/best.pt"
+IMAGE_DIR = ".../test/images"
+PROJECT_DIR = ".../test/results"
 RUN_NAME = "segmented_batch2"
 FILLED_DIR = os.path.join(PROJECT_DIR, RUN_NAME, "filled_masks")
 
-# ===== DIREKTORIJAS =====
+
 os.makedirs(FILLED_DIR, exist_ok=True)
 
 # ===== 1. Ielādē modeli =====
