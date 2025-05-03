@@ -31,7 +31,7 @@ for img_name in test_images:
     img_path = os.path.join(TEST_IMAGES_DIR, img_name)
     image = Image.open(img_path).convert("RGB")
 
-    # Konvertē uz tensoru bez izmēru maiņas
+
     input_tensor = torch.from_numpy(np.array(image)).permute(2, 0, 1).float() / 255.0
     input_tensor = input_tensor.unsqueeze(0).to(DEVICE)  # (1, 3, H, W)
 
