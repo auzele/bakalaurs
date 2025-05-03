@@ -20,6 +20,6 @@ class BuildingDataset(Dataset):
 
         image = transforms.ToTensor()(image)
         mask = transforms.ToTensor()(mask)
-        mask = (mask > 0).float()  # binārā maska
+        mask = (mask > 0).float()  
 
         return image, mask
