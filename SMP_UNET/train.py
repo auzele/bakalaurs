@@ -3,16 +3,16 @@ from torch.utils.data import DataLoader
 import segmentation_models_pytorch as smp
 from dataset import BuildingDataset
 
-# Parametri
+#PARAMETERS
 DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
 BATCH_SIZE = 4
 EPOCHS = 50
 
-# Datu ielāde
+
 train_loader = DataLoader(BuildingDataset("train/images", "train/masks"), batch_size=BATCH_SIZE, shuffle=True)
 val_loader = DataLoader(BuildingDataset("validation/images", "validation/masks"), batch_size=BATCH_SIZE)
 
-# Modelis
+#MODEL
 model = smp.Unet(
     encoder_name="resnet50",
     encoder_weights="imagenet",
@@ -21,11 +21,11 @@ model = smp.Unet(
     activation=None
 ).to(DEVICE)
 
-# Zuduma funkcija un optimizētājs
+
 loss_fn = smp.losses.DiceLoss(mode="binary")
 optimizer = torch.optim.Adam(model.parameters())
 
-# Apmācība
+#TRAIN
 best_val_loss = float("inf")
 for epoch in range(EPOCHS):
     model.train()
@@ -56,4 +56,4 @@ for epoch in range(EPOCHS):
     if avg_val_loss < best_val_loss:
         best_val_loss = avg_val_loss
         torch.save(model.state_dict(), "best_unet.pth")
-        print("Saglabāts labākais modelis.")
+        print("Best model saved!")
