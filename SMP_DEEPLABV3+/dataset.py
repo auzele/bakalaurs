@@ -28,6 +28,6 @@ class BuildingDataset(Dataset):
         image = self.transform(image)
         mask = self.transform(mask)
 
-        mask = (mask > 0).float()  # Pārvērš uz bināru masku
+        mask = (mask > 0).float()  
 
         return image, mask
