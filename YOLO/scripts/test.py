@@ -6,17 +6,17 @@ from ultralytics import YOLO
 
 MODEL_PATH = ".../weights/best.pt"
 IMAGE_DIR = ".../test/images"
-PROJECT_DIR = ".../test/results"
-RUN_NAME = "segmented_batch2"
-MASK_DIR = os.path.join(PROJECT_DIR, RUN_NAME, "binary_masks")
+OUTPUT_MASKS_DIR = ".../results/binary_masks"
 
 
-os.makedirs(MASK_DIR, exist_ok=True)
+os.makedirs(OUTPUT_MASKS_DIR, exist_ok=True)
 
-#MODEL
+
+print("Loading YOLO model...")
 model = YOLO(MODEL_PATH)
 
 
+print("Running YOLO segmentation...")
 results = model.predict(
     source=IMAGE_DIR,
     save=False,
@@ -25,22 +25,21 @@ results = model.predict(
 )
 
 #BINARY MASKS
-
-for i, r in enumerate(results):
+print("💾 Saving binary masks...")
+for r in results:
     h, w = r.orig_img.shape[:2]
-    combined_mask = np.zeros((h, w), dtype=np.uint8)  
+    binary_mask = np.zeros((h, w), dtype=np.uint8)
 
     if r.masks is not None:
-        masks = r.masks.data.cpu().numpy() 
-        for mask in masks:
-            binary = (mask * 255).astype(np.uint8) 
-            combined_mask = np.maximum(combined_mask, binary)  
+        masks = r.masks.data.cpu().numpy()
+        for m in masks:
+            mask = (m * 255).astype(np.uint8)
+            binary_mask = np.maximum(binary_mask, mask)
 
-        filename = os.path.basename(r.path).rsplit(".", 1)[0]
-        mask_path = os.path.join(MASK_DIR, f"{filename}_combined_mask.png")
-        cv2.imwrite(mask_path, combined_mask)
-        print(f"{len(masks)} masks merged for image: {r.path}")
-    else:
-        print(f"No masks found for image: {r.path}")
+    filename = os.path.basename(r.path)
+    name = os.path.splitext(filename)[0]
+    out_path = os.path.join(OUTPUT_MASKS_DIR, f"{name}.png")
 
-print(f"Merged binary masks saved in: {MASK_DIR}")
+    cv2.imwrite(out_path, binary_mask)
+
+print(f"Binary masks saved to: {OUTPUT_MASKS_DIR}")
