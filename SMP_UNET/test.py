@@ -1,3 +1,9 @@
+# Model architecture and training loop inspired by:
+# Iakubovskii, P. (2019). Segmentation Models Pytorch. GitHub repository.
+# https://github.com/qubvel/segmentation_models.pytorch
+
+
+
 import os
 import torch
 from PIL import Image
