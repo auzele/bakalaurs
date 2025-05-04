@@ -2,8 +2,8 @@ import os
 import cv2
 
 
-MASK_DIR = "/Users/viktorijaauzele/PycharmProjects/256x256/640_mask"
-OUTPUT_TXT_DIR = "/Users/viktorijaauzele/PycharmProjects/256x256/yolo_labels"
+MASK_DIR = ".../640_mask"
+OUTPUT_TXT_DIR = ".../yolo_labels"
 IMAGE_SIZE = 640
 
 CLASS_ID = 0
