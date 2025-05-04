@@ -3,13 +3,13 @@ from PIL import Image
 import math
 
 
-INPUT_IMAGE = "/Users/viktorijaauzele/PycharmProjects/256x256/4311-15_1_mask_nev.png"
-OUTPUT_DIR = "/Users/viktorijaauzele/PycharmProjects/256x256/640"
+INPUT_IMAGE = ".../4311-15_1.tif"
+OUTPUT_DIR = ".../640"
 PATCH_SIZE = 640
 
 
 # Use PATCH_SIZE for no overlap. For overlap, use:
-# OVERLAP = 0.2
+# OVERLAP = 0.1
 # STRIDE = int(PATCH_SIZE * (1 - OVERLAP))
 STRIDE = PATCH_SIZE  # No overlap
 
