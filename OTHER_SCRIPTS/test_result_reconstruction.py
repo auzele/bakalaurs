@@ -4,12 +4,12 @@ import numpy as np
 import math
 
 
-INPUT_DIR = "/Users/viktorijaauzele/PycharmProjects/256x256/640"
-ORIGINAL_IMAGE = "/Users/viktorijaauzele/PycharmProjects/256x256/1000x1000_ogre.tif"
-OUTPUT_IMAGE = "/Users/viktorijaauzele/PycharmProjects/256x256/reconstructed.png"
+INPUT_DIR = ".../640"
+ORIGINAL_IMAGE = ".../1000x1000_ogre.tif"
+OUTPUT_IMAGE = ".../reconstructed.png"
 PATCH_SIZE = 640
-OVERLAP = 0.2
-STRIDE = int(PATCH_SIZE * (1 - OVERLAP))  # e.g. 512 if OVERLAP = 20%
+OVERLAP = 0.1
+STRIDE = int(PATCH_SIZE * (1 - OVERLAP))  
 
 
 with Image.open(ORIGINAL_IMAGE) as img:
