@@ -2,21 +2,24 @@
 # Iakubovskii, P. (2019). Segmentation Models Pytorch. GitHub repository.
 # https://github.com/qubvel/segmentation_models.pytorch
 
-
 import os
 import torch
 from torchvision import transforms
 from PIL import Image
 import segmentation_models_pytorch as smp
 
-#PARAMETERS
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL_PATH = "best_deeplabv3+_resnet50.pth"  
-TEST_IMAGES_DIR = ".../test/images"    
-OUTPUT_DIR = ".../test/result" 
+
+DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
+MODEL_PATH = "deeplabv3+_resnet50.pth"
+TEST_IMAGES_DIR = ".../test/images"
+OUTPUT_DIR = ".../result"
 
 
-#MODEL
+transform = transforms.Compose([
+    transforms.ToTensor(),  # only converts to tensor 
+])
+
+
 model = smp.DeepLabV3Plus(
     encoder_name="resnet50",
     encoder_weights=None,
@@ -28,9 +31,8 @@ model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 model = model.to(DEVICE)
 model.eval()
 
-#TEST
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 test_images = os.listdir(TEST_IMAGES_DIR)
 
 for img_name in test_images:
@@ -43,13 +45,14 @@ for img_name in test_images:
         pred_mask = torch.sigmoid(output)
         pred_mask = (pred_mask > 0.5).float()
 
+   
     pred_mask = pred_mask.squeeze().cpu().numpy() * 255
     pred_mask = Image.fromarray(pred_mask.astype("uint8"))
-    pred_mask = pred_mask.resize(image.size)
+
 
     save_path = os.path.join(OUTPUT_DIR, f"mask_{img_name}")
     pred_mask.save(save_path)
 
     print(f"Saved: {save_path}")
 
-print("\n Finished!")
+print("All test masks saved without resizing!")
