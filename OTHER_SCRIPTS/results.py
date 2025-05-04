@@ -5,9 +5,9 @@ import cv2
 import os
 
 
-ground_truth_path = "/Users/viktorijaauzele/PycharmProjects/256x256/640_test_mask/4311-15_1_0023.png"
-prediction_path   = "/Users/viktorijaauzele/PycharmProjects/256x256/rezultati/23_yolov9c.png"
-rgb_image_path    = "/Users/viktorijaauzele/PycharmProjects/256x256/640_test/4311-15_1_0023.png"
+ground_truth_path = ".../ground_truth.png"
+prediction_path   = ".../prediction_mask.png"
+rgb_image_path    = ".../4311-15_1.png"
 output_path       = "output_overlay.png"
 
 
@@ -71,7 +71,7 @@ def evaluate_on_rgb_background(rgb_path, ground_truth, prediction, alpha=0.3):
 
     plt.figure(figsize=(10, 10))
     plt.imshow(blended)
-    plt.title("Yolov9c-seg")
+    plt.title("Results")
     plt.axis('off')
 
 
