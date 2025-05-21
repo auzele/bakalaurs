@@ -1,7 +1,7 @@
 # Project Overview
 This repository contains the code developed for the bachelor's thesis  
-*Evaluation of Computer Vision Methods for Building Detection in Orthophotos"  
-by Viktorija Aužele (University of Latvia 2025).
+*"Evaluation of Computer Vision Methods for Building Detection in Orthophotos"*  
+by *Viktorija Aužele* (University of Latvia 2025).
 
 
 The aim of this study is to evaluate the effectiveness of the computer vision algorithms U-Net, DeepLabv3+, YOLOv8n-seg, and YOLOv9c-seg in building recognition from orthophotos and to assess their practical applicability in construction monitoring. Fragments from the 6th-cycle color orthophoto map produced by the Latvian Geospatial Information Agency were used to train the algorithms using data from the Salaspils area and to test the resulting models on data from the Ogre area. Model effectiveness was assessed at the pixel-level by comparing the predicted masks with manually prepared reference masks and by calculating performance metrics, including precision, accuracy, recall, the F1 score, and the Intersection over Union (IoU) coefficient. To assess the practical applicability of the models in construction monitoring, the pixel-level overlap between the predicted masks and cadastral building polygons was analyzed.
